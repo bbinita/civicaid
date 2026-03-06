@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Admin from './pages/Admin'
+import Register from './pages/Register'
 // import axios from 'axios'
 
 const App = () => {
@@ -14,12 +15,11 @@ const App = () => {
       <Toaster position="top-right" />
       <Routes>
         <Route path="/login" element={<Login />} />
-
+        <Route path="/register" element={<Register />} />
         <Route element={<PrivateRoute />}>
         <Route path='/' element={<Home />}/>
         <Route path="/admin" element={<Admin />} />
         </Route>
-
         <Route path='8' element={<NotFound />}/>
       </Routes>
     </AuthProvider>
@@ -27,3 +27,4 @@ const App = () => {
 }
 
 export default App
+
