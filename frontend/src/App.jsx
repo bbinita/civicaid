@@ -1,21 +1,26 @@
-import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import axios from 'axios'
+import { AuthProvider } from './context/AuthContext'
+import PrivateRoute from './components/PrivateRoute'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import NotFound from './pages/NotFound'
+// import axios from 'axios'
 
 const App = () => {
-  useEffect(() => {
-    axios.post('http://localhost:8000/api/auth/login', {
-      email: 'test@test.com',
-      password: 'password'
-    })
-    .then(res => console.log('Success:', res.data))
-    .catch(err => console.error('Error:', err))
-  }, [])
-
   return (
-    <div>
+    <AuthProvider>
       <Toaster position="top-right" />
-    </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+
+        <Route element={<PrivateRoute />}>
+        <Route path='/' element={<Home />}/>
+        </Route>
+
+        <Route path='8' element={<NotFound />}/>
+      </Routes>
+    </AuthProvider>
   )
 }
 
