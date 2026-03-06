@@ -5,6 +5,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
+import Admin from './pages/Admin'
 // import axios from 'axios'
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
 
         <Route element={<PrivateRoute />}>
         <Route path='/' element={<Home />}/>
+        <Route path="/admin" element={<Admin />} />
         </Route>
 
         <Route path='8' element={<NotFound />}/>
