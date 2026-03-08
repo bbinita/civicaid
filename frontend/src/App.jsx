@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Admin from './pages/Admin'
 import Register from './pages/Register'
+import Staff from './pages/Staff'
 // import axios from 'axios'
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/staff" element={<Staff />} />
           </Route>
         </Route>
 

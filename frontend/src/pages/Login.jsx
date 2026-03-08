@@ -30,6 +30,7 @@ const Login = () => {
 
       // Redirect by role
       if (user.role === 'admin') navigate('/admin')
+        else if (user.role === 'staff') navigate('/staff')
       else navigate('/')
 
     } catch (err) {

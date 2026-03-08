@@ -4,11 +4,25 @@ export const handlers = [
   http.post('http://localhost:8000/api/auth/login', async ({ request }) => {
     const { email, password } = await request.json()
 
-     if (email === 'test@test.com' && password === 'password') {
+    const users = {
+    'citizen@test.com': {
+      id: 1, name: 'John Citizen', email: 'citizen@test.com', role: 'citizen'
+    },
+    'admin@test.com': {
+      id: 2, name: 'Admin User', email: 'admin@test.com', role: 'admin'
+    },
+    'staff@test.com': {
+      id: 3, name: 'Staff Member', email: 'staff@test.com', role: 'staff'
+    },
+  }
+
+  const user = users[email]
+
+  if (user && password === 'password') {
     return HttpResponse.json({
       accessToken: 'fake-access-token-123',
       refreshToken: 'fake-refresh-token-456',
-      user: { id: 1, name: 'Test User', email, role: 'admin' },
+      user,
     })
   }
 
@@ -17,6 +31,7 @@ export const handlers = [
     { status: 401 }
   )
 }),
+
 
   http.post('http://localhost:8000/api/auth/register', async ({ request }) => {
     const body = await request.json()
