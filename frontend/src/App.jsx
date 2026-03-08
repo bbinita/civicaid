@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
+import MainLayout from './layouts/MainLayout'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
@@ -13,14 +14,22 @@ const App = () => {
   return (
     <AuthProvider>
       <Toaster position="top-right" />
+
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+
         <Route element={<PrivateRoute />}>
-        <Route path='/' element={<Home />}/>
-        <Route path="/admin" element={<Admin />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<Admin />} />
+          </Route>
         </Route>
-        <Route path='8' element={<NotFound />}/>
+
+
+        <Route path='*' element={<NotFound />}/>
       </Routes>
     </AuthProvider>
   )
