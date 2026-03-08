@@ -50,12 +50,14 @@ export const AuthProvider = ({ children }) => {
   const login = (user, accessToken, refreshToken) => {
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('refreshToken', refreshToken)
+    localStorage.setItem('user', JSON.stringify(user))
     dispatch({ type: 'LOGIN', payload: { user, accessToken, refreshToken } })
   }
 
   const logout = () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
+    localStorage.removeItem('user')
     dispatch({ type: 'LOGOUT' })
   }
 
@@ -63,8 +65,22 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('accessToken')
     if (!token) {
       dispatch({ type: 'SET_LOADING', payload: false })
+      return
     }
-    // Later: call getMe() here to rehydrate user from token
+
+    const user = JSON.parse(localStorage.getItem('user') || 'null')
+    if (user) {
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          user,
+          accessToken: token,
+          refreshToken: localStorage.getItem('refreshToken'),
+        },
+      })
+    } else {
+      dispatch({ type: 'SET_LOADING', payload: false })
+    }
   }, [])
 
   return (
@@ -73,4 +89,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   )
 }
-export default AuthContext;
+
+export default AuthContext
