@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { LogOut, Home, Shield, User, Menu, X } from 'lucide-react'
+import { MapPin, LogOut, Home, Shield, User, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import toast from 'react-hot-toast'
@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 const NAV_LINKS = {
   common: [
     { label: 'Home', path: '/', icon: Home },
+    { label: 'Submit Issue', path: '/submit', icon: MapPin },
   ],
   admin: [
     { label: 'Admin', path: '/admin', icon: Shield },
