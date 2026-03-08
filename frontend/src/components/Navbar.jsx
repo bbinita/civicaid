@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { LogOut, Home, Shield, User, Menu, X } from 'lucide-react'
 import { useState } from 'react'
@@ -11,7 +12,10 @@ const NAV_LINKS = {
   admin: [
     { label: 'Admin', path: '/admin', icon: Shield },
   ],
-  user: [
+  staff: [
+    { label: 'Staff', path: '/staff', icon: User },
+  ],
+  citizen: [
     { label: 'Profile', path: '/profile', icon: User },
   ],
 }
@@ -45,23 +49,23 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-1">
-            {allLinks.map(({ label, path, icon: Icon }) => (
-              <Link
-                key={path}
-                to={path}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(path)
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                <Icon size={16} />
-                {label}
-              </Link>
-            ))}
+            {allLinks.map(({ label, path, icon: LinkIcon }) => (
+  <Link
+    key={path}
+    to={path}
+    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+      isActive(path)
+        ? 'bg-blue-50 text-blue-600'
+        : 'text-gray-600 hover:bg-gray-100'
+    }`}
+  >
+    <LinkIcon size={16} />
+    {label}
+  </Link>
+))}
           </div>
 
-          {/* Right side — user + logout */}
+          
           <div className="hidden md:flex items-center gap-3">
             <span className="text-sm text-gray-500">
               {user?.name}
@@ -78,7 +82,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile menu toggle */}
+        
           <button
             className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -89,24 +93,26 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      
       {menuOpen && (
         <div className="md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1">
-          {allLinks.map(({ label, path, icon: Icon }) => (
-            <Link
-              key={path}
-              to={path}
-              onClick={() => setMenuOpen(false)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive(path)
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              <Icon size={16} />
-              {label}
-            </Link>
-          ))}
+          // eslint-disable-next-line no-unused-vars
+          {allLinks.map(({ label, path, icon: LinkIcon }) => (
+  <Link
+    key={path}
+    to={path}
+    onClick={() => setMenuOpen(false)}
+    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+      isActive(path)
+        ? 'bg-blue-50 text-blue-600'
+        : 'text-gray-600 hover:bg-gray-100'
+    }`}
+  >
+    <LinkIcon size={16} />
+    {label}
+  </Link>
+))}
+
           <div className="border-t border-gray-100 mt-2 pt-2">
             <p className="px-4 py-1 text-xs text-gray-400">
               {user?.name} · {user?.role}
