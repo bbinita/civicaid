@@ -9,7 +9,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['full_name', 'email', 'password', 'password2', 'phone']
+        fields = ['username', 'full_name', 'email', 'password', 'password2', 'phone']
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -44,3 +44,10 @@ class CivicAidTokenSerializer(TokenObtainPairSerializer):
             "language": self.user.language,
         }
         return data
+
+class UserProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'email', 'full_name', 'phone', 'address', 'language', 'role', 'created_at']
+        read_only_fields = ['id', 'email', 'role', 'created_at']
