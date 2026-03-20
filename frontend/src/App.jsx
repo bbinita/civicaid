@@ -11,6 +11,7 @@ import Register from './pages/Register'
 import Staff from './pages/Staff'
 import SubmitIssue from './pages/SubmitIssue'
 import MyIssues from './pages/MyIssues'
+import IssueDetail from './pages/IssueDetail'
 // import axios from 'axios'
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/staff" element={<Staff />} />
             <Route path="/submit" element={<SubmitIssue />} />
             <Route path="/issues" element={<MyIssues />} />
+            <Route path="/issues/:id" element={<IssueDetail />} />
           </Route>
         </Route>
 

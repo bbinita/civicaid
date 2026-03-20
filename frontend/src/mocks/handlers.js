@@ -47,6 +47,24 @@ const MOCK_ISSUES = [
     location: 'Baneshwor, Kathmandu',
     image: null,
     created_at: '2025-03-01T08:30:00Z',
+    updated_at: '2025-03-05T10:00:00Z',
+    status_history: [
+      {
+        status: 'pending',
+        timestamp: '2025-03-01T08:30:00Z',
+        note: 'Issue submitted by citizen.',
+      },
+      {
+        status: 'open',
+        timestamp: '2025-03-02T09:00:00Z',
+        note: 'Reviewed and assigned to road maintenance team.',
+      },
+      {
+        status: 'in_progress',
+        timestamp: '2025-03-05T10:00:00Z',
+        note: 'Repair crew dispatched to site.',
+      },
+    ],
   },
   {
     id: 2,
@@ -59,6 +77,19 @@ const MOCK_ISSUES = [
     location: 'Lalitpur Ward 5',
     image: null,
     created_at: '2025-03-03T11:00:00Z',
+    updated_at: '2025-03-04T08:00:00Z',
+    status_history: [
+      {
+        status: 'pending',
+        timestamp: '2025-03-03T11:00:00Z',
+        note: 'Issue submitted by citizen.',
+      },
+      {
+        status: 'open',
+        timestamp: '2025-03-04T08:00:00Z',
+        note: 'Forwarded to Lalitpur water authority.',
+      },
+    ],
   },
   {
     id: 3,
@@ -71,6 +102,14 @@ const MOCK_ISSUES = [
     location: 'Kalanki, Kathmandu',
     image: null,
     created_at: '2025-03-05T07:15:00Z',
+    updated_at: null,
+    status_history: [
+      {
+        status: 'pending',
+        timestamp: '2025-03-05T07:15:00Z',
+        note: 'Issue submitted by citizen.',
+      },
+    ],
   },
   {
     id: 4,
@@ -83,6 +122,29 @@ const MOCK_ISSUES = [
     location: 'Koteshwor, Kathmandu',
     image: null,
     created_at: '2025-02-20T09:00:00Z',
+    updated_at: '2025-02-28T14:00:00Z',
+    status_history: [
+      {
+        status: 'pending',
+        timestamp: '2025-02-20T09:00:00Z',
+        note: 'Issue submitted by citizen.',
+      },
+      {
+        status: 'open',
+        timestamp: '2025-02-21T10:00:00Z',
+        note: 'Assigned to waste management unit.',
+      },
+      {
+        status: 'in_progress',
+        timestamp: '2025-02-24T08:00:00Z',
+        note: 'Cleanup crew scheduled.',
+      },
+      {
+        status: 'resolved',
+        timestamp: '2025-02-28T14:00:00Z',
+        note: 'Area cleaned. Issue resolved.',
+      },
+    ],
   },
   {
     id: 5,
@@ -95,6 +157,19 @@ const MOCK_ISSUES = [
     location: 'Patan Dhoka, Lalitpur',
     image: null,
     created_at: '2025-03-07T14:45:00Z',
+    updated_at: '2025-03-08T09:00:00Z',
+    status_history: [
+      {
+        status: 'pending',
+        timestamp: '2025-03-07T14:45:00Z',
+        note: 'Issue submitted by citizen.',
+      },
+      {
+        status: 'open',
+        timestamp: '2025-03-08T09:00:00Z',
+        note: 'Escalated to municipal drainage team.',
+      },
+    ],
   },
   {
     id: 6,
@@ -107,8 +182,17 @@ const MOCK_ISSUES = [
     location: 'Ratnapark, Kathmandu',
     image: null,
     created_at: '2025-03-10T16:00:00Z',
+    updated_at: null,
+    status_history: [
+      {
+        status: 'pending',
+        timestamp: '2025-03-10T16:00:00Z',
+        note: 'Issue submitted by citizen.',
+      },
+    ],
   },
 ]
+
 export const handlers = [
   http.post('http://localhost:8000/api/auth/login/', async ({ request }) => {
     const body = await request.json()
