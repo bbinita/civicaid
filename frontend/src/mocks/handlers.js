@@ -48,6 +48,8 @@ const MOCK_ISSUES = [
     image: null,
     created_at: '2025-03-01T08:30:00Z',
     updated_at: '2025-03-05T10:00:00Z',
+    upvote_count: 12,
+    has_upvoted: false,
     status_history: [
       {
         status: 'pending',
@@ -78,6 +80,8 @@ const MOCK_ISSUES = [
     image: null,
     created_at: '2025-03-03T11:00:00Z',
     updated_at: '2025-03-04T08:00:00Z',
+    upvote_count: 7,
+    has_upvoted: false,
     status_history: [
       {
         status: 'pending',
@@ -103,6 +107,8 @@ const MOCK_ISSUES = [
     image: null,
     created_at: '2025-03-05T07:15:00Z',
     updated_at: null,
+    upvote_count: 3,
+    has_upvoted: true,
     status_history: [
       {
         status: 'pending',
@@ -123,6 +129,8 @@ const MOCK_ISSUES = [
     image: null,
     created_at: '2025-02-20T09:00:00Z',
     updated_at: '2025-02-28T14:00:00Z',
+    upvote_count: 1,
+    has_upvoted: false,
     status_history: [
       {
         status: 'pending',
@@ -158,6 +166,8 @@ const MOCK_ISSUES = [
     image: null,
     created_at: '2025-03-07T14:45:00Z',
     updated_at: '2025-03-08T09:00:00Z',
+    upvote_count: 9,
+    has_upvoted: false,
     status_history: [
       {
         status: 'pending',
@@ -183,6 +193,8 @@ const MOCK_ISSUES = [
     image: null,
     created_at: '2025-03-10T16:00:00Z',
     updated_at: null,
+    upvote_count: 2,
+    has_upvoted: false,
     status_history: [
       {
         status: 'pending',
@@ -260,5 +272,23 @@ export const handlers = [
       return HttpResponse.json({ message: 'Issue not found' }, { status: 404 })
     }
     return HttpResponse.json(issue, { status: 200 })
+  }),
+
+  http.post('http://localhost:8000/api/issues/:id/upvote/', ({ params }) => {
+    const id = Number(params.id)
+    const upvotedIds = new Set()
+    if (upvotedIds.has(id)) {
+      return HttpResponse.json(
+        { message: 'You have already upvoted this issue.' },
+        { status: 400 }
+      )
+    }
+
+    upvotedIds.add(id)
+
+    const issue = MOCK_ISSUES.find((i) => i.id === id)
+    const newCount = (issue?.upvote_count ?? 0) + 1
+
+    return HttpResponse.json({ upvote_count: newCount }, { status: 200 })
   }),
 ]

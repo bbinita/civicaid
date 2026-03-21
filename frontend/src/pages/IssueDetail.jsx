@@ -1,9 +1,14 @@
-// src/pages/IssueDetail.jsx
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
-  ArrowLeft, MapPin, Clock, Tag, AlertCircle,
-  ImageOff, CalendarDays, Hash,
+  ArrowLeft,
+  MapPin,
+  Clock,
+  Tag,
+  AlertCircle,
+  ImageOff,
+  CalendarDays,
+  Hash,
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import StatusBadge from '../components/StatusBadge'
@@ -11,23 +16,26 @@ import PriorityBadge from '../components/PriorityBadge'
 import StatusTimeline from '../components/StatusTimeline'
 import { getMyIssueById } from '../services/issues'
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 function formatDate(dateStr) {
   if (!dateStr) return '—'
   return new Date(dateStr).toLocaleDateString('en-US', {
-    day: 'numeric', month: 'long', year: 'numeric',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
   })
 }
 
 function formatDateTime(dateStr) {
   if (!dateStr) return '—'
   return new Date(dateStr).toLocaleDateString('en-US', {
-    day: 'numeric', month: 'short', year: 'numeric',
-    hour: '2-digit', minute: '2-digit',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   })
 }
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
 function Skeleton() {
   return (
     <div className="animate-pulse space-y-4">
@@ -47,8 +55,7 @@ function Skeleton() {
   )
 }
 
-// ─── Metadata row ─────────────────────────────────────────────────────────────
-function MetaItem({  label, value }) {
+function MetaItem({ label, value }) {
   return (
     <div className="flex items-start gap-3 py-3 border-b border-slate-100 last:border-0">
       <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
@@ -58,22 +65,27 @@ function MetaItem({  label, value }) {
         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">
           {label}
         </p>
-        <p className="text-sm text-slate-700 font-medium wrap-break-words">{value}</p>
+        <p className="text-sm text-slate-700 font-medium wrap-break-words">
+          {value}
+        </p>
       </div>
     </div>
   )
 }
 
-// ─── Image viewer ─────────────────────────────────────────────────────────────
 function IssueImage({ src, title }) {
   const [expanded, setExpanded] = useState(false)
 
   if (!src) {
     return (
-      <div className="w-full h-48 rounded-2xl bg-slate-100 flex flex-col items-center
-        justify-center gap-2 border border-slate-200">
+      <div
+        className="w-full h-48 rounded-2xl bg-slate-100 flex flex-col items-center
+        justify-center gap-2 border border-slate-200"
+      >
         <ImageOff size={24} className="text-slate-300" />
-        <span className="text-xs text-slate-300 font-medium">No photo attached</span>
+        <span className="text-xs text-slate-300 font-medium">
+          No photo attached
+        </span>
       </div>
     )
   }
@@ -110,7 +122,6 @@ function IssueImage({ src, title }) {
   )
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
 export default function IssueDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -128,7 +139,9 @@ export default function IssueDetail() {
         setIssue(data)
       } catch (err) {
         setError(true)
-        toast.error(err?.response?.data?.message ?? 'Could not load this issue.')
+        toast.error(
+          err?.response?.data?.message ?? 'Could not load this issue.'
+        )
       } finally {
         setLoading(false)
       }
@@ -139,10 +152,8 @@ export default function IssueDetail() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-
-        {/* ── Back button ──────────────────────────────────────────────────── */}
         <button
-          onClick={() => navigate('/my-issues')}
+          onClick={() => navigate('/issues')}
           className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800
             font-medium transition-colors duration-150 mb-6 group"
         >
@@ -161,7 +172,9 @@ export default function IssueDetail() {
             <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mb-4">
               <AlertCircle size={28} className="text-red-400" />
             </div>
-            <h2 className="text-slate-700 font-semibold text-lg mb-1">Issue not found</h2>
+            <h2 className="text-slate-700 font-semibold text-lg mb-1">
+              Issue not found
+            </h2>
             <p className="text-slate-400 text-sm mb-5">
               This issue doesn't exist or you don't have access to it.
             </p>
@@ -175,18 +188,18 @@ export default function IssueDetail() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            {/* ── Left column (main content) ─────────────────────────────── */}
+         
             <div className="lg:col-span-2 flex flex-col gap-5">
-
-              {/* Header card */}
+             
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xs font-mono font-bold text-slate-400">
                     #{issue.id}
                   </span>
                   <span className="text-slate-200">·</span>
-                  <span className="text-xs font-semibold text-slate-500">{issue.category}</span>
+                  <span className="text-xs font-semibold text-slate-500">
+                    {issue.category}
+                  </span>
                 </div>
 
                 <h1 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-4">
@@ -196,6 +209,13 @@ export default function IssueDetail() {
                 <div className="flex flex-wrap items-center gap-2">
                   <StatusBadge status={issue.status} />
                   <PriorityBadge priority={issue.priority} />
+                  <div className="ml-auto">
+                    <UpvoteButton
+                      issueId={issue.id}
+                      initialCount={issue.upvote_count ?? 0}
+                      initialVoted={issue.has_upvoted ?? false}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -216,22 +236,32 @@ export default function IssueDetail() {
                   {issue.description}
                 </p>
               </div>
-
             </div>
 
-            {/* ── Right column (sidebar) ─────────────────────────────────── */}
+           
             <div className="flex flex-col gap-5">
-
-              {/* Metadata */}
+              
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
                 <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
                   Details
                 </h2>
                 <div className="divide-y divide-slate-100">
-                  <MetaItem icon={Hash}        label="Issue ID"   value={`#${issue.id}`} />
-                  <MetaItem icon={Tag}         label="Category"   value={issue.category} />
+                  <MetaItem
+                    icon={Hash}
+                    label="Issue ID"
+                    value={`#${issue.id}`}
+                  />
+                  <MetaItem
+                    icon={Tag}
+                    label="Category"
+                    value={issue.category}
+                  />
                   {issue.location && (
-                    <MetaItem icon={MapPin}    label="Location"   value={issue.location} />
+                    <MetaItem
+                      icon={MapPin}
+                      label="Location"
+                      value={issue.location}
+                    />
                   )}
                   <MetaItem
                     icon={CalendarDays}
@@ -248,7 +278,7 @@ export default function IssueDetail() {
                 </div>
               </div>
 
-              {/* Status timeline */}
+            
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
                 <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
                   Progress
@@ -258,7 +288,6 @@ export default function IssueDetail() {
                   history={issue.status_history ?? []}
                 />
               </div>
-
             </div>
           </div>
         )}

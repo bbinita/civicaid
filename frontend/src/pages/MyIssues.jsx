@@ -1,4 +1,3 @@
-// src/pages/MyIssues.jsx
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, AlertCircle, ClipboardList, RefreshCw } from 'lucide-react'
@@ -6,7 +5,6 @@ import toast from 'react-hot-toast'
 import IssueCard from '../components/IssueCard'
 import { getMyIssues } from '../services/issues'
 
-// ─── Filter options ────────────────────────────────────────────────────────────
 const STATUS_FILTERS = [
   { value: 'all', label: 'All' },
   { value: 'pending', label: 'Pending' },
@@ -24,7 +22,6 @@ const SORT_OPTIONS = [
 
 const PRIORITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3, none: 4 }
 
-// ─── Skeleton loader ───────────────────────────────────────────────────────────
 function SkeletonCard() {
   return (
     <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden animate-pulse">
@@ -45,7 +42,6 @@ function SkeletonCard() {
   )
 }
 
-// ─── Empty state ───────────────────────────────────────────────────────────────
 function EmptyState({ hasFilters, onClear }) {
   return (
     <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
@@ -81,7 +77,6 @@ function EmptyState({ hasFilters, onClear }) {
   )
 }
 
-// ─── Error state ───────────────────────────────────────────────────────────────
 function ErrorState({ onRetry }) {
   return (
     <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
@@ -106,7 +101,6 @@ function ErrorState({ onRetry }) {
   )
 }
 
-// ─── Main page ─────────────────────────────────────────────────────────────────
 export default function MyIssues() {
   const navigate = useNavigate()
 
@@ -135,7 +129,6 @@ export default function MyIssues() {
     fetchIssues()
   }, [])
 
-  // ─── Filter + sort ───────────────────────────────────────────────────────────
   const filtered = issues
     .filter((i) => statusFilter === 'all' || i.status === statusFilter)
     .sort((a, b) => {
@@ -153,7 +146,6 @@ export default function MyIssues() {
 
   const hasFilters = statusFilter !== 'all'
 
-  // ─── Counts for filter pills ─────────────────────────────────────────────────
   const counts = issues.reduce((acc, i) => {
     acc[i.status] = (acc[i.status] ?? 0) + 1
     return acc

@@ -1,8 +1,8 @@
-// src/components/IssueCard.jsx
 import { MapPin, Clock, ChevronRight, ImageOff } from 'lucide-react'
 // import { useNavigate } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 import PriorityBadge from './PriorityBadge'
+import UpvoteButton from './UpvoteButton'
 
 const CATEGORY_COLORS = {
   'Road & Transport': { bg: 'bg-orange-100', text: 'text-orange-700' },
@@ -95,9 +95,17 @@ export default function IssueCard({ issue, onClick }) {
         </p>
 
         {/* Badges row */}
-        <div className="flex flex-wrap items-center gap-2 mt-auto pt-1">
-          <StatusBadge status={issue.status} size="sm" />
-          <PriorityBadge priority={issue.priority} size="sm" />
+        <div className="flex flex-wrap items-center justify-between gap-2 mt-auto pt-1">
+          <div className="flex items-center gap-2">
+            <StatusBadge status={issue.status} size="sm" />
+            <PriorityBadge priority={issue.priority} size="sm" />
+          </div>
+          <UpvoteButton
+            issueId={issue.id}
+            initialCount={issue.upvote_count ?? 0}
+            initialVoted={issue.has_upvoted ?? false}
+            size="sm"
+          />
         </div>
       </div>
 
