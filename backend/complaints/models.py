@@ -25,6 +25,8 @@ class Complaint(models.Model):
         blank=True
     )
 
+    location_lng = models.FloatField(null=True, blank=True)
+
     class Category(models.TextChoices):
         WATER = 'water', 'Water'
         ROAD = 'road', 'Road'
