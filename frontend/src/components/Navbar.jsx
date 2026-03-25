@@ -24,6 +24,7 @@ const NAV_LINKS = {
   citizen: [
     { label: 'Profile', path: '/profile', icon: User },
     { path: '/issues', label: 'My Issue', icon: MapPin },
+    { path: '/map', label: 'Map', icon: MapPin },
   ],
 }
 

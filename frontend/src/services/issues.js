@@ -13,7 +13,6 @@ import api from './api'
 // }
 
 // src/services/issues.js
- 
 
 export async function getMyIssues() {
   const response = await api.get('/api/issues/')
@@ -32,5 +31,9 @@ export async function submitIssue(formData) {
 
 export async function upvoteIssue(id) {
   const response = await api.post(`/api/issues/${id}/upvote/`)
+  return response.data
+}
+export async function getHeatmapData() {
+  const response = await api.get('/api/issues/heatmap/')
   return response.data
 }
