@@ -1,7 +1,6 @@
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
-
 import L from 'leaflet'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
@@ -14,15 +13,13 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 })
 
-
 const NEPAL_CENTER = [28.3949, 84.124]
 const NEPAL_ZOOM = 7
-
 
 function MapInvalidator() {
   const map = useMap()
   useEffect(() => {
-    setTimeout(() => map.invalidateSize(), 100)
+    setTimeout(() => map.invalidateSize(), 300)
   }, [map])
   return null
 }
@@ -41,7 +38,9 @@ export default function NepalMap({
   children,
 }) {
   return (
-    <div className={`rounded-2xl overflow-hidden border border-slate-200 shadow-sm ${className}`}>
+    <div
+      className={`rounded-2xl overflow-hidden border border-slate-200 shadow-sm ${className}`}
+    >
       <MapContainer
         center={center}
         zoom={zoom}
