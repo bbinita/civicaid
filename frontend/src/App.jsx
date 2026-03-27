@@ -12,7 +12,6 @@ import Staff from './pages/Staff'
 import SubmitIssue from './pages/SubmitIssue'
 import MyIssues from './pages/MyIssues'
 import IssueDetail from './pages/IssueDetail'
-import MapTest from './pages/MapTest'
 import IssueMap from './pages/IssueMap'
 // import axios from 'axios'
 
@@ -33,7 +32,6 @@ const App = () => {
             <Route path="/submit" element={<SubmitIssue />} />
             <Route path="/issues" element={<MyIssues />} />
             <Route path="/issues/:id" element={<IssueDetail />} />
-            <Route path="/map-test" element={<MapTest />} />
             <Route path="/map" element={<IssueMap />} />
           </Route>
         </Route>
