@@ -8,6 +8,7 @@ import MapFilters from '../components/MapFilters'
 import StatusBadge from '../components/StatusBadge'
 import PriorityBadge from '../components/PriorityBadge'
 import useMapFilters from '../hooks/useMapFilters'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { getHeatmapData } from '../services/issues'
 
 const PRIORITY_STYLE = {
@@ -190,48 +191,53 @@ export default function IssueMap() {
             )}
 
             <NepalMap className="h-[560px]">
-              {issues.map((issue) => {
-                const style =
-                  PRIORITY_STYLE[issue.priority] ?? PRIORITY_STYLE.none
-                return (
-                  <CircleMarker
-                    key={issue.id}
-                    center={[issue.lat, issue.lng]}
-                    radius={style.radius}
-                    pathOptions={{
-                      color: style.color,
-                      fillColor: style.fillColor,
-                      fillOpacity: 0.45,
-                      weight: 2,
-                    }}
-                  >
-                    <Popup className="civicaid-popup">
-                      <div className="p-1 min-w-[200px]">
-                        <p className="text-sm font-semibold text-slate-800 leading-snug mb-2">
-                          {issue.title}
-                        </p>
+              <MarkerClusterGroup>
+                {filtered.map((issue) => {
+                  const style =
+                    PRIORITY_STYLE[issue.priority] ?? PRIORITY_STYLE.none
+                  return (
+                    <CircleMarker
+                      key={issue.id}
+                      center={[issue.lat, issue.lng]}
+                      radius={style.radius}
+                      pathOptions={{
+                        color: style.color,
+                        fillColor: style.fillColor,
+                        fillOpacity: 0.45,
+                        weight: 2,
+                      }}
+                    >
+                      <Popup className="civicaid-popup">
+                        <div className="p-1 min-w-[200px]">
+                          <p className="text-sm font-semibold text-slate-800 leading-snug mb-2">
+                            {issue.title}
+                          </p>
 
-                        <div className="flex items-center gap-1.5 mb-3">
-                          <StatusBadge status={issue.status} size="sm" />
-                          <PriorityBadge priority={issue.priority} size="sm" />
-                        </div>
+                          <div className="flex items-center gap-1.5 mb-3">
+                            <StatusBadge status={issue.status} size="sm" />
+                            <PriorityBadge
+                              priority={issue.priority}
+                              size="sm"
+                            />
+                          </div>
 
-                        <p className="text-xs text-slate-400 mb-3">
-                          {issue.category}
-                        </p>
+                          <p className="text-xs text-slate-400 mb-3">
+                            {issue.category}
+                          </p>
 
-                        <button
-                          onClick={() => navigate(`/issues/${issue.id}`)}
-                          className="w-full text-xs font-semibold text-white bg-blue-600
+                          <button
+                            onClick={() => navigate(`/issues/${issue.id}`)}
+                            className="w-full text-xs font-semibold text-white bg-blue-600
                             hover:bg-blue-700 px-3 py-1.5 rounded-lg transition-colors"
-                        >
-                          View Issue →
-                        </button>
-                      </div>
-                    </Popup>
-                  </CircleMarker>
-                )
-              })}
+                          >
+                            View Issue →
+                          </button>
+                        </div>
+                      </Popup>
+                    </CircleMarker>
+                  )
+                })}
+              </MarkerClusterGroup>
             </NepalMap>
 
             <Legend />
