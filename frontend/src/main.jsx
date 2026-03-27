@@ -28,6 +28,8 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 async function prepare() {
   if (import.meta.env.DEV && import.meta.env.VITE_USE_MOCK === 'true') {
