@@ -34,6 +34,7 @@ class Complaint(models.Model):
         SANITATION = 'sanitation', 'Sanitation'
         PARK = 'park', 'Park'
         SAFETY = 'safety', 'Safety'
+    
         OTHER = 'other', 'Other'
 
     class Priority(models.TextChoices):

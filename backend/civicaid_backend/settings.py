@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.100.167']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.247', '.onrender.com']
 
 
 # Application definition
@@ -56,6 +56,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -160,7 +161,12 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5173',
-    'http://192.168.100.167:5173',
-    
+    'http://localhost:5174',
+    'http://192.168.100.167:5174',
+    'http://192.168.1.247:5174',
 ]
+
 CORS_ALLOW_CREDENTIALS = True
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

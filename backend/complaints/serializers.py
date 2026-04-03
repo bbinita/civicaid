@@ -23,3 +23,8 @@ class ComplaintDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
         fields = ['id', 'title', 'description', 'image', 'category', 'priority', 'status',  'location_name', 'location_lat', 'location_lng', 'language', 'ai_category', 'ai_priority', 'ai_confidence', 'is_duplicate', 'upvote_count', 'created_at', 'updated_at', 'resolved_at', 'status_history']
+
+class ComplaintHeatmapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Complaint
+        fields = ['id','title', 'category', 'priority', 'status', 'location_lat', 'location_lng', 'location_name']
