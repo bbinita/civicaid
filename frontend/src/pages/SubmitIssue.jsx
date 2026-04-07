@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { MapPin, Upload, X, ImageIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { submitIssue } from '../services/issues'
 
 const CATEGORIES = [
@@ -28,6 +29,7 @@ const SubmitIssue = () => {
     reset,
   } = useForm()
 
+  const navigate = useNavigate()
   // Image upload handler
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -103,6 +105,7 @@ const SubmitIssue = () => {
       reset()
       removeImage()
       setLocation(null)
+      navigate('/my-issues')
     } catch (err) {
       const message =
         err.response?.data?.message || 'Submission failed. Try again.'

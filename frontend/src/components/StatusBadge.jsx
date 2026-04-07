@@ -1,5 +1,3 @@
-// src/components/StatusBadge.jsx
-
 const STATUS_CONFIG = {
   pending: {
     label: "Pending",
