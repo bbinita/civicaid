@@ -11,13 +11,14 @@ import NotFound from './pages/NotFound'
 import Register from './pages/Register'
 import Staff from './pages/Staff'
 import SubmitIssue from './pages/SubmitIssue'
-import MyIssues from './pages/MyIssues'
+import Issues from './pages/Issues'
 import IssueDetail from './pages/IssueDetail'
 import IssueMap from './pages/IssueMap'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminIssues from './pages/admin/AdminIssues'
 import AdminMap from './pages/admin/AdminMap'
 import AdminAnalytics from './pages/admin/AdminAnalytics'
+import Profile from './pages/Profile'
 
 const App = () => {
   return (
@@ -74,7 +75,8 @@ const App = () => {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/submit" element={<SubmitIssue />} />
-            <Route path="/myissues" element={<MyIssues />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/issues" element={<Issues />} />
             <Route path="/issues/:id" element={<IssueDetail />} />
             <Route path="/map" element={<IssueMap />} />
           </Route>
