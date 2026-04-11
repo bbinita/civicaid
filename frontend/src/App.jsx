@@ -18,6 +18,8 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminIssues from './pages/admin/AdminIssues'
 import AdminMap from './pages/admin/AdminMap'
 import AdminAnalytics from './pages/admin/AdminAnalytics'
+import AdminUsers from './pages/admin/AdminUsers'
+import AdminSettings from './pages/admin/AdminSettings'
 import Profile from './pages/Profile'
 
 const App = () => {
@@ -37,14 +39,7 @@ const App = () => {
               <Route path="/admin/issues" element={<AdminIssues />} />
               <Route path="/admin/map" element={<AdminMap />} />
               <Route path="/admin/analytics" element={<AdminAnalytics />} />
-              <Route
-                path="/admin/users"
-                element={
-                  <div className="p-8">
-                    <h1 className="text-2xl font-bold">Users</h1>
-                  </div>
-                }
-              />
+              <Route path="/admin/users" element={<AdminUsers />} />
               <Route
                 path="/admin/analytics"
                 element={
@@ -53,14 +48,7 @@ const App = () => {
                   </div>
                 }
               />
-              <Route
-                path="/admin/settings"
-                element={
-                  <div className="p-8">
-                    <h1 className="text-2xl font-bold">Settings</h1>
-                  </div>
-                }
-              />
+              <Route path="/admin/settings" element={<AdminSettings />} />
             </Route>
           </Route>
 

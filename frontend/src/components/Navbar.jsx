@@ -6,13 +6,11 @@ import useAuth from '../hooks/useAuth'
 import toast from 'react-hot-toast'
 
 const NAV_LINKS = {
-  common: [
-    { label: 'Home', path: '/', icon: Home },
-    { label: 'Submit Issue', path: '/submit', icon: MapPin },
-  ],
   admin: [{ label: 'Admin', path: '/admin', icon: Shield }],
   staff: [{ label: 'Staff', path: '/staff', icon: User }],
   citizen: [
+    { label: 'Home', path: '/', icon: Home },
+    { label: 'Submit Issue', path: '/submit', icon: MapPin },
     { label: 'Profile', path: '/profile', icon: User },
     { path: '/issues', label: 'Issues', icon: MapPin },
     { path: '/map', label: 'Map', icon: MapPin },
@@ -32,7 +30,7 @@ const Navbar = () => {
   }
 
   const roleLinks = NAV_LINKS[user?.role] || []
-  const allLinks = [...NAV_LINKS.common, ...roleLinks]
+  const allLinks = [...roleLinks]
 
   const isActive = (path) => location.pathname === path
 
