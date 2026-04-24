@@ -7,6 +7,9 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
 from django.db.models import Count
+from django.db.models.functions import TruncWeek
+from datetime import timedelta
+from django.utils import timezone
 
 
 class IsAdminOrStaff(BasePermission):
@@ -212,7 +215,7 @@ class BulkUpdateView(APIView):
 
 
 class AdminSummaryView(APIView):
-    permission_classes = [Isauthenticated, IsAdminOrStaff]
+    permission_classes = [IsAuthenticated, IsAdminOrStaff]
 
     def get(self, request):
         total = Complaint.objects.count()
@@ -235,3 +238,26 @@ class AdminSummaryView(APIView):
             "by_priority": by_priority,
             "by_category": by_category,
         })
+
+
+class AdminTrendsView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminOrStaff]
+
+    def get(self, request):
+        eight_weeks_ago = timezone.now() - timedelta(weeks=8)
+
+        trends = (
+            Complaint.objects.filter(created_at__gte=eight_weeks_ago)
+            .annotate(work=TrunWeek('created_at')).values('week')
+            .annotate(count=Count('id')).order_by('week')
+
+        )
+
+        data = [
+            {
+                "week": entry['week'].strftime('%Y-%m-%d'),
+                "count": entry['count']
+            }
+            for entry in trends
+        ]
+        return Response(data)

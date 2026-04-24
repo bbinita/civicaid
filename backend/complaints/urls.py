@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ComplaintListCreateView, ComplaintDetailView, UpvoteToggleView, AdminComplaintListView, StatusUpdateView, StaffIssueListView, StaffStatusUpdateView, HeatmapView, AdminSummaryView, BulkUpdateView
+from .views import ComplaintListCreateView, ComplaintDetailView, UpvoteToggleView, AdminComplaintListView, StatusUpdateView, StaffIssueListView, StaffStatusUpdateView, HeatmapView, AdminSummaryView, BulkUpdateView, AdminTrendsView
 
 urlpatterns = [
     path('complaints/', ComplaintListCreateView.as_view(), name ='complaint-list'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('admin/summary/', AdminSummaryView.as_view(), name='admin-summary'),
     path('admin/issues/bulk-update/', BulkUpdateView.as_view(), name='bulk-update'),
     path('admin/summary', AdminSummaryView.as_view(), name='admin-summary'),
+    path('admin/analytics/trends/', AdminTrendsView.as_view(), name='admin-trends'),
 ]
