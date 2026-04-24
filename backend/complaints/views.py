@@ -213,24 +213,26 @@ class BulkUpdateView(APIView):
 
         return Response({"updated": complaints.count()})
 
-
 class AdminSummaryView(APIView):
     permission_classes = [IsAuthenticated, IsAdminOrStaff]
 
     def get(self, request):
         total = Complaint.objects.count()
 
-        by_status = dict(
-            Complaint.objects.values('status').annotate(count=Count('id'))
-        )
+        by_status = {
+            item['status']: item['count']
+            for item in Complaint.objects.values('status').annotate(count=Count('id'))
+        }
 
-        by_priority = dict(
-            Complaint.objects.values('priority').annotate(count=Count('id'))
-        )
+        by_priority = {
+            item['priority']: item['count']
+            for item in Complaint.objects.values('priority').annotate(count=Count('id'))
+        }
 
-        by_category = dict(
-            Complaint.objects.values('category').annotate(count=Count('id'))
-        )
+        by_category = {
+            item['category']: item['count']
+            for item in Complaint.objects.values('category').annotate(count=Count('id'))
+        }
 
         return Response({
             "total_complaints": total,
@@ -248,9 +250,10 @@ class AdminTrendsView(APIView):
 
         trends = (
             Complaint.objects.filter(created_at__gte=eight_weeks_ago)
-            .annotate(work=TrunWeek('created_at')).values('week')
-            .annotate(count=Count('id')).order_by('week')
-
+            .annotate(week=TruncWeek('created_at'))
+            .values('week')
+            .annotate(count=Count('id'))
+            .order_by('week')
         )
 
         data = [
