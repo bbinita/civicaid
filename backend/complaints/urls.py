@@ -12,4 +12,5 @@ urlpatterns = [
     path('issues/heatmap/', HeatmapView.as_view(), name='heatmap'),
     path('admin/summary/', AdminSummaryView.as_view(), name='admin-summary'),
     path('admin/issues/bulk-update/', BulkUpdateView.as_view(), name='bulk-update'),
+    path('admin/summary', AdminSummaryView.as_view(), name='admin-summary'),
 ]

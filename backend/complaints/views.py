@@ -209,3 +209,29 @@ class BulkUpdateView(APIView):
             )
 
         return Response({"updated": complaints.count()})
+
+
+class AdminSummaryView(APIView):
+    permission_classes = [Isauthenticated, IsAdminOrStaff]
+
+    def get(self, request):
+        total = Complaint.objects.count()
+
+        by_status = dict(
+            Complaint.objects,values_list('status').annotate(count=Count('id'))
+        )
+
+        by_priority = dict(
+            Complaint.objects.values_list('prioroty').annotate(count=Count('id'))
+        )
+
+        by_category = dict(
+            Complaint.objects.values_list('category').annotate(count=Count('id'))
+        )
+
+        return Response({
+            "total_complaints": total,
+            "by_status": by_status,
+            "by_priority": by_priority,
+            "by_category": by_category,
+        })
