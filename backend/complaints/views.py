@@ -221,15 +221,15 @@ class AdminSummaryView(APIView):
         total = Complaint.objects.count()
 
         by_status = dict(
-            Complaint.objects,values_list('status').annotate(count=Count('id'))
+            Complaint.objects.values('status').annotate(count=Count('id'))
         )
 
         by_priority = dict(
-            Complaint.objects.values_list('prioroty').annotate(count=Count('id'))
+            Complaint.objects.values('priority').annotate(count=Count('id'))
         )
 
         by_category = dict(
-            Complaint.objects.values_list('category').annotate(count=Count('id'))
+            Complaint.objects.values('category').annotate(count=Count('id'))
         )
 
         return Response({
