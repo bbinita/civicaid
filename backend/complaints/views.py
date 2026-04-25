@@ -10,6 +10,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncWeek
 from datetime import timedelta
 from django.utils import timezone
+from notifications.models import Notification
 
 
 class IsAdminOrStaff(BasePermission):

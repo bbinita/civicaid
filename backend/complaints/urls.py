@@ -11,7 +11,6 @@ urlpatterns = [
     path('staff/issues/<int:pk>/status/', StaffStatusUpdateView.as_view(), name='staff-status-update'),
     path('issues/heatmap/', HeatmapView.as_view(), name='heatmap'),
     path('admin/summary/', AdminSummaryView.as_view(), name='admin-summary'),
-    path('admin/summary', AdminSummaryView.as_view(), name='admin-summary'),
     path('admin/trends/', AdminTrendsView.as_view(), name='admin-trends'),
     path('admin/issues/bulk-update/', BulkStatusUpdateView.as_view(), name='bulk-update'),
 ]
