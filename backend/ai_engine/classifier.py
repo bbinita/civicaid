@@ -2,6 +2,8 @@ import os
 import pickle
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
 from ai_engine.training_data import CATEGORY_TRAINING_DATA, PRIORITY_TRAINING_DATA
 from ai_engine.vectorizer import SAVED_MODELS_DIR
 
@@ -21,11 +23,26 @@ def split_texts_and_labels(data):
 def train_category_classifier():
     texts, labels = split_texts_and_labels(CATEGORY_TRAINING_DATA)
 
+    X_train, X_test, y_train, y_test = train_test_split(
+        texts, labels, test_size=0.2, random_state=42
+    )
+
     vectorizer = TfidfVectorizer()
-    vectors = vectorizer.fit_transform(texts)
+    X_train_vec = vectorizer.fit_transform(X_train)
+    X_test_vec = vectorizer.transform(X_test)
 
     classifier = MultinomialNB()
-    classifier.fit(vectors, labels)
+    classifier.fit(X_train_vec, y_train)
+
+    y_pred = classifier.predict(X_test_vec)
+    print("=== CATEGORY CLASSIFIER ===")
+    print(classification_report(y_test, y_pred))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred))
+
+    # Re-train on ALL data before saving (so production model uses everything)
+    full_vec = vectorizer.fit_transform(texts)
+    classifier.fit(full_vec, labels)
 
     os.makedirs(SAVED_MODELS_DIR, exist_ok=True)
 
@@ -41,11 +58,26 @@ def train_category_classifier():
 def train_priority_classifier():
     texts, labels = split_texts_and_labels(PRIORITY_TRAINING_DATA)
 
+    X_train, X_test, y_train, y_test = train_test_split(
+        texts, labels, test_size=0.2, random_state=42
+    )
+
     vectorizer = TfidfVectorizer()
-    vectors = vectorizer.fit_transform(texts)
+    X_train_vec = vectorizer.fit_transform(X_train)
+    X_test_vec = vectorizer.transform(X_test)
 
     classifier = MultinomialNB()
-    classifier.fit(vectors, labels)
+    classifier.fit(X_train_vec, y_train)
+
+    y_pred = classifier.predict(X_test_vec)
+    print("=== PRIORITY CLASSIFIER ===")
+    print(classification_report(y_test, y_pred))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred))
+
+    # Re-train on ALL data before saving
+    full_vec = vectorizer.fit_transform(texts)
+    classifier.fit(full_vec, labels)
 
     os.makedirs(SAVED_MODELS_DIR, exist_ok=True)
 

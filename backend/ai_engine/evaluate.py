@@ -1,0 +1,4 @@
+from ai_engine.classifier import train_category_classifier, train_priority_classifier
+
+train_category_classifier()
+train_priority_classifier()
