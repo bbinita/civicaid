@@ -8,5 +8,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('token/refresh/', TokenRefreshView.as_view(), name='tokenrefresh'),
-    path('verify-otp', VerifyOTPView.as_view(), name='verify-otp'),
+    path('verify-otp/', VerifyOTPView.as_view(), name='verify-otp'),
 ]
