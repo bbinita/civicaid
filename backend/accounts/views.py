@@ -105,3 +105,51 @@ class VerifyOTPView(APIView):
             {"message": "Account verified successfully"},
             status=200
         )
+
+class ResendOTPView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+
+        if not email:
+            return Response(
+                {"error": "email is required"},
+                status=400
+            )
+
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            return Response(
+                {"error": "User not found"},
+                status=404
+            )
+
+        if user.is_active:
+            return Response(
+                {"message": "User already verified"},
+                status=200
+            )
+
+        OTPVerification.objects.filter(user=user).delete()
+
+        otp = str(random.randint(100000, 999999))
+
+        OTPVerification.objects.create(
+            user=user,
+            otp=otp
+        )
+
+   
+        send_mail(
+            subject="Your New OTP Code",
+            message=f"Your new OTP is {otp}",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+        )
+
+        return Response(
+            {"message": "OTP resent successfully"},
+            status=200
+        )
