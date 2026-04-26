@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
         STAFF = "staff", "Staff"
         ADMIN = "admin", "Admin"
 
-    role = models.CharField( 
+    role = models.CharField(
         max_length=7,
         choices=Role.choices, 
         default=Role.CITIZEN)
@@ -29,8 +29,6 @@ class CustomUser(AbstractUser):
         choices=Language.choices, 
         default=Language.ENGLISH)
 
-
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -42,5 +40,10 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f"{self.full_name} ({self.role})"
 
-
-
+class OTPVerification(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE
+    )
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -11,10 +11,8 @@ from django.db.models.functions import TruncWeek
 from datetime import timedelta
 from django.utils import timezone
 from notifications.models import Notification
-from django.config import settings
+from django.conf import settings
 from django.core.mail import send_mail
-
-
 
 
 class IsAdminOrStaff(BasePermission):
