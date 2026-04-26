@@ -11,6 +11,8 @@ from django.db.models.functions import TruncWeek
 from datetime import timedelta
 from django.utils import timezone
 from notifications.models import Notification
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 class IsAdminOrStaff(BasePermission):
@@ -110,6 +112,24 @@ class StatusUpdateView(APIView):
             changed_by=request.user,
             remark=remark
         )
+        
+
+        Notification.objects.create(
+            recipient=complaint.citizen,
+            complaint=complaint,
+            event='status_changed',
+            message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
+            message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
+        )
+
+        if new_status in ['in_progress', 'resolved', 'rejected']:
+            send_mail(
+                subject="CivicAid - Your Complaint Status Updated",
+                message=f"Dear {complaint.citizen.full_name}, your complaint '{complaint.title}' has been updated to {new_status}.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[complaint.citizen.email]
+            )
+
         return Response({
             "message": f"Complaint status updated to {new_status}",
             "complaint_id": complaint.id,
@@ -151,11 +171,29 @@ class StaffStatusUpdateView(APIView):
             changed_by=request.user,
             remark=""
         )
+        
+        Notification.objects.create(
+            recipient=complaint.citizen,
+            complaint=complaint,
+            event='status_changed',
+            message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
+            message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
+        )
+        if new_status in ['in_progress', 'resolved', 'rejected']:
+            send_mail(
+                subject="CivicAid - Your Complaint Status Updated",
+                message=f"Dear {complaint.citizen.full_name}, your complaint '{complaint.title}' has been updated to {new_status}.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[complaint.citizen.email]
+            )
+
         return Response({
             "message": f"Status updated to {new_status}",
             "complaint_id": complaint.id,
             "new_status": new_status
         }, status=status.HTTP_200_OK)
+
+
 
 class HeatmapView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -249,16 +287,26 @@ class BulkStatusUpdateView(APIView):
                 remark=remark
             )
 
-            if new_status in ['in_progress', 'resolved']:
-                Notification.objects.create(
-                    recipient=complaint.citizen,
-                    complaint=complaint,
-                    event='status_changed',
-                    message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
-                    message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
-                )
+            
+            Notification.objects.create(
+                recipient=complaint.citizen,
+                complaint=complaint,
+                event='status_changed',
+                message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
+                message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
+            )
 
+            
+
+            if new_status in ['in_progress', 'resolved', 'rejected']:
+                send_mail(
+                    subject="CivicAid - Your Complaint Status Updated",
+                    message=f"Dear {complaint.citizen.full_name}, your complaint '{complaint.title}' has been updated to {new_status}.",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[complaint.citizen.email]
+                )
             updated.append(complaint.id)
+
 
         return Response({
             "updated_ids": updated,
