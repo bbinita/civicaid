@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL ||
+    'https://civicaid-backend-mwrq.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -13,6 +15,7 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type']
     }
@@ -25,8 +28,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
+      localStorage.clear()
       window.location.href = '/'
     }
     return Promise.reject(error)
