@@ -7,9 +7,9 @@ urlpatterns = [
     path('complaints/<int:pk>/upvote/', UpvoteToggleView.as_view(), name='upvote-toggle'),
     path('admin/complaints/', AdminComplaintListView.as_view(), name='admin-complaint-list'),
     path('admin/complaints/<int:pk>/status/', StatusUpdateView.as_view(), name='status-update'),
-    path('issues/heatmap/', HeatmapView.as_view(), name='heatmap'),
+    path('complaints/heatmap/', HeatmapView.as_view(), name='heatmap'),
     path('admin/summary/', AdminSummaryView.as_view(), name='admin-summary'),
     path('admin/trends/', AdminTrendsView.as_view(), name='admin-trends'),
-    path('admin/issues/bulk-update/', BulkStatusUpdateView.as_view(), name='bulk-update'),
+    path('admin/complaints/bulk-update/', BulkStatusUpdateView.as_view(), name='bulk-update'),
     path('admin/users/', AdminUserListView.as_view(), name='admin-users'),
 ]
