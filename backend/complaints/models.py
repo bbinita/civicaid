@@ -54,6 +54,7 @@ class Complaint(models.Model):
     category = models.CharField(
         max_length=20,
         choices=Category.choices,
+        default=Category.OTHER
     )
 
     priority = models.CharField(

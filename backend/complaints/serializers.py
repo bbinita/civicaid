@@ -4,7 +4,7 @@ from .models import Complaint, StatusHistory
 class ComplaintCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
-        fields = ['title', 'description', 'image', 'category', 'location_name', 'location_lat', 'location_lng', 'language']
+        fields = ['title', 'description', 'image', 'location_name', 'location_lat', 'location_lng', 'language']
 
     def validate_description(self, value):
         if len(value.strip()) < 20:
