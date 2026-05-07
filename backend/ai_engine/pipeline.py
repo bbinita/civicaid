@@ -41,8 +41,10 @@ def analyze(complaint):
 
     if ai_confidence < 0.40:
         complaint.ai_category = "uncertain"
+        complaint.category = "other"
     else:
         complaint.ai_category = ai_category
+        complaint.category = ai_category
 
     complaint.ai_priority = ai_priority
     complaint.ai_confidence = round(float(ai_confidence), 4)
