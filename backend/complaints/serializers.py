@@ -31,12 +31,21 @@ class StatusHistorySerializer(serializers.ModelSerializer):
         model = StatusHistory
         fields = ['previous_status', 'new_status', 'changed_by', 'changed_at', 'remark']
 
+        
 class ComplaintDetailSerializer(serializers.ModelSerializer):
     status_history = StatusHistorySerializer(many=True, read_only=True)
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+        return None
 
     class Meta:
         model = Complaint
-        fields = ['id', 'title', 'description', 'image', 'category', 'priority', 'status',  'location_name', 'location_lat', 'location_lng', 'language', 'ai_category', 'ai_priority', 'ai_confidence', 'is_duplicate', 'upvote_count', 'created_at', 'updated_at', 'resolved_at', 'status_history']
+        fields = ['id', 'title', 'description', 'image', 'category', 'priority', 'status', 'location_name', 'location_lat', 'location_lng', 'language', 'ai_category', 'ai_priority', 'ai_confidence', 'is_duplicate', 'upvote_count', 'created_at', 'updated_at', 'resolved_at', 'status_history']
 
 
 class ComplaintHeatmapSerializer(serializers.ModelSerializer):
