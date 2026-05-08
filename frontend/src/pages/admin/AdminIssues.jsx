@@ -434,7 +434,7 @@ export default function AdminIssues() {
                   rows.map((issue) => (
                     <tr
                       key={issue.id}
-                      onClick={() => navigate(`/issues/${issue.id}`)}
+                      onClick={() => navigate(`/admin/issues/${issue.id}`)}
                       className="hover:bg-slate-50 cursor-pointer transition-colors group"
                     >
                       {/* ID */}
