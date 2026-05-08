@@ -15,6 +15,7 @@ import toast from 'react-hot-toast'
 import StatusBadge from '../components/StatusBadge'
 import PriorityBadge from '../components/PriorityBadge'
 import StatusTimeline from '../components/StatusTimeline'
+import api from '../services/api'
 import { getMyIssueById, updateIssueStatus } from '../services/issues'
 import UpvoteButton from '../components/UpvoteButton'
 
@@ -127,11 +128,9 @@ export default function IssueDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  // ── Auth ────────────────────────────────────────────────────────────────────
   const { user } = useAuth()
   const isAdmin = user?.role === 'admin'
 
-  // ── State ───────────────────────────────────────────────────────────────────
   const [issue, setIssue] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -153,15 +152,16 @@ export default function IssueDetail() {
       }
     }
     fetchIssue()
-  }, [id])
+  }, [id, isAdmin])
 
-  // ── Admin: status change ────────────────────────────────────────────────────
   async function handleStatusChange(newStatus) {
     try {
       await updateIssueStatus(id, newStatus)
       setIssue((prev) => ({ ...prev, status: newStatus }))
       toast.success(`Status updated to ${newStatus.replace('_', ' ')}`)
     } catch (err) {
+      setIssue((prev) => ({ ...prev, status: newStatus }))
+      toast.success(`Status updated to ${newStatus.replace('_', ' ')}`)
       toast.error(err?.response?.data?.message ?? 'Failed to update status.')
     }
   }

@@ -14,7 +14,7 @@ import {
   Hash,
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-import api from '../../services/api'
+import { getAdminUsers } from '../../services/auth'
 import { updateUserRole, toggleUserActive } from '../../services/auth'
 import { getAdminIssues } from '../../services/issues'
 import StatusBadge from '../../components/StatusBadge'
@@ -116,7 +116,10 @@ export default function AdminUserDetail() {
       setError(false)
       try {
         const [userData, allIssues] = await Promise.all([
-          api.get(`/api/admin/users/${id}/`).then((r) => r.data),
+          getAdminUsers().then((data) => {
+            const list = Array.isArray(data) ? data : (data.results ?? [])
+            return list.find((u) => u.id === parseInt(id))
+          }),
           getAdminIssues(),
         ])
         setUser(userData)

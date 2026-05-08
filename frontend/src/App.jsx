@@ -46,6 +46,7 @@ const App = () => {
               <Route path="/admin/users/:id" element={<AdminUserDetail />} />
               <Route path="/admin/settings" element={<AdminSettings />} />
             </Route>
+            <Route path="/admin/issues/:id" element={<IssueDetail />} />
           </Route>
 
           {/* Citizen  */}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 import PriorityBadge from './PriorityBadge'
 import UpvoteButton from './UpvoteButton'
+import useAuth from '../hooks/useAuth'
 
 const CATEGORY_COLORS = {
   // Backend stored values (lowercase)
@@ -36,11 +37,13 @@ function truncate(str, n) {
 
 export default function IssueCard({ issue, onClick }) {
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const isAdmin = user?.role === 'admin'
   const catStyle = CATEGORY_COLORS[issue.category] ?? CATEGORY_COLORS['Other']
 
   function handleClick() {
     if (onClick) return onClick(issue)
-    navigate(`/issues/${issue.id}`)
+    navigate(isAdmin ? `/admin/issues/${issue.id}` : `/issues/${issue.id}`)
   }
 
   return (
