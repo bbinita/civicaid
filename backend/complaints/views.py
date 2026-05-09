@@ -353,3 +353,10 @@ class AdminUserUpdateView(APIView):
             status=status.HTTP_200_OK
         )
 
+class AdminUserComplaintsView(generics.ListAPIView):
+    serializer_class = ComplaintListSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Complaint.objects.filter(citizen__id=user_id).order_by('-created_at')
