@@ -50,7 +50,7 @@ class ComplaintListCreateView(generics.ListCreateAPIView):
         return ComplaintListSerializer
 
     def get_queryset(self):
-        return Complaint.objects.filter(citizen=self.request.user)
+        return Complaint.objects.all().order_by('-created_at')  # changed
 
     def create(self, request, *args, **kwargs):
         user_id = request.user.id
@@ -71,7 +71,7 @@ class ComplaintListCreateView(generics.ListCreateAPIView):
         
         self.perform_create(serializer)
 
-        cache.set(cache_key, request_count + 1, timeout=3600)  
+        cache.set(cache_key, request_count + 1, timeout=3600)
 
         return Response(serializer.data, status=201)
 
@@ -124,11 +124,14 @@ class UpvoteToggleView(APIView):
         complaint.save() 
         return Response({ "message": "Upvoted successfully", "upvote_count": complaint.upvote_count }, status=status.HTTP_201_CREATED)
 
-
-
 class AdminComplaintListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = ComplaintListSerializer
+    queryset = Complaint.objects.all()
+
+class AdminComplaintDetailView(generics.RetrieveAPIView):  # new
+    permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class = ComplaintDetailSerializer
     queryset = Complaint.objects.all()
 
 class StatusUpdateView(APIView):
@@ -154,9 +157,7 @@ class StatusUpdateView(APIView):
             )
 
         complaint.status = new_status
-        complaint.save(update_fields=['status', 'updated_at']) 
-
-
+        complaint.save(update_fields=['status', 'updated_at'])
 
         StatusHistory.objects.create(
             complaint=complaint,
@@ -165,6 +166,7 @@ class StatusUpdateView(APIView):
             changed_by=request.user,
             remark=remark
         )
+<<<<<<< HEAD
         
         try:
             Notification.objects.create(
@@ -173,6 +175,15 @@ class StatusUpdateView(APIView):
                 event='status_changed',
                 message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
                 message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
+=======
+
+        Notification.objects.create(
+            recipient=complaint.citizen,
+            complaint=complaint,
+            event='status_changed',
+            message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
+            message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
+>>>>>>> dev
         )
         except Exception as e:
             print(f"Notification creation failed: {e}")
@@ -192,9 +203,6 @@ class StatusUpdateView(APIView):
             "new_status": new_status
         }, status=status.HTTP_200_OK)
 
-
-
-
 class HeatmapView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ComplaintHeatmapSerializer
@@ -202,8 +210,6 @@ class HeatmapView(generics.ListAPIView):
         location_lat=None, 
         location_lng=None
     )
-
-
 
 class AdminSummaryView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
@@ -232,7 +238,6 @@ class AdminSummaryView(APIView):
             "by_priority": by_priority,
             "by_category": by_category,
         })
-
 
 class AdminTrendsView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
@@ -287,16 +292,14 @@ class BulkStatusUpdateView(APIView):
                 remark=remark
             )
 
-            try:
-                Notification.objects.create(
-                    recipient=complaint.citizen,
-                    complaint=complaint,
-                    event='status_changed',
-                    message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
-                    message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
-                )
-            except Exception as e:
-                print(f"Notification creation failed: {e}")
+            Notification.objects.create(
+                recipient=complaint.citizen,
+                complaint=complaint,
+                event='status_changed',
+                message=f"Your complaint '{complaint.title}' has been {new_status.replace('_', ' ')}.",
+                message_ne=f"तपाईंको उजुरी '{complaint.title}' को स्थिति {new_status} मा परिवर्तन भयो।"
+            )
+
 
             if new_status in ['in_progress', 'resolved', 'rejected']:
                 send_status_email(
@@ -307,14 +310,11 @@ class BulkStatusUpdateView(APIView):
                 )
             updated.append(complaint.id)
 
-
         return Response({
             "updated_ids": updated,
             "count": len(updated),
             "new_status": new_status
         })
-
-
 
 class AdminUserListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer
