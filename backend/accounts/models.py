@@ -19,6 +19,7 @@ class CustomUser(AbstractUser):
         default=Role.CITIZEN)
 
     address = models.CharField(max_length=255, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
     class Language(models.TextChoices):
         ENGLISH = 'en', 'English'
